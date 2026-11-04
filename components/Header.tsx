@@ -22,7 +22,7 @@ export function Header({ user, demo, freeShip }: { user: { name: string; role: s
           {links.map(([h, k]) => <Link key={h} href={h} className="whitespace-nowrap text-sm font-medium text-ink/80 transition hover:text-clay">{t(k)}</Link>)}
         </nav>
         <div className="ml-auto flex items-center gap-1 sm:gap-2">
-          <form onSubmit={(e) => { e.preventDefault(); router.push(`/shop?q=${encodeURIComponent(q)}`); setOpen(false); }} className="hidden xl:block" role="search">
+          <form onSubmit={(e) => { e.preventDefault(); router.push(`/shop?q=${encodeURIComponent(q)}`); setOpen(false); }} className="hidden 2xl:block" role="search">
             <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('search_ph')} aria-label={t('search')} className="w-44 rounded-full border border-beige bg-white px-4 py-2 text-sm outline-none focus:border-clay" />
           </form>
           <div className="flex rounded-full border border-beige bg-white text-xs font-semibold" role="group" aria-label={t('lang')}>
