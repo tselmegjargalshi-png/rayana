@@ -143,6 +143,7 @@ export function buildSeed(): DB {
       price, salePrice: sale, garment: d.g, images: looks, video: null, colors, sizes: d.sizes, variants, fabric: fab.f, material: fab.m, care: wool ? WOOL_CARE : CARE,
       isNew: r() < 0.22, isBestseller: r() < 0.2, isFeatured: r() < 0.18, status: 'active', collections: [], tags: [], demo: true, createdAt: iso(now - Math.floor(r() * 120) * day), lowStockThreshold: 5,
     };
+    if (p.isFeatured) p.video = `/demo/video_${d.group}.mp4`;
     products.push(p); return p;
   };
   for (const d of DEFS) for (const si of d.st) mk(d, si);

@@ -15,7 +15,7 @@ export function Logo({ tag, size = 36 }: { tag?: string; size?: number }) {
       <LogoMark size={size} />
       <span className="leading-none">
         <span className="block font-display text-2xl font-semibold tracking-tight text-ink">Rayana</span>
-        {tag && <span className="mt-0.5 block text-[10px] font-medium uppercase tracking-[0.22em] text-muted">{tag}</span>}
+        {tag && <span className="mt-0.5 hidden whitespace-nowrap text-[9px] sm:block font-medium uppercase tracking-[0.22em] text-muted">{tag}</span>}
       </span>
     </span>
   );

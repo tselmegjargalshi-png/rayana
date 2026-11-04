@@ -93,7 +93,7 @@ export function confirmPayment(orderId: string, by: string): Order {
   return mutate((db) => {
     const o = db.orders.find((x) => x.id === orderId); if (!o) throw new HttpError(404, 'not_found');
     if (o.status === 'cancelled') throw new HttpError(409, 'order_cancelled');
-    if (o.payment.status === 'confirmed' || o.payment.status === 'cod_collected') throw new HttpError(409, 'already_confirmed');
+    if (o.stockDeducted || o.payment.status === 'confirmed' || o.payment.status === 'cod_collected') throw new HttpError(409, 'already_confirmed');
     deduct(db, o, by);
     o.payment.status = o.payment.method === 'cod' ? 'cod_due' : 'confirmed'; o.payment.confirmedAt = iso();
     o.status = 'payment_confirmed'; o.timeline.push({ at: iso(), status: 'payment_confirmed', text: 'Төлбөр баталгаажсан (DEMO, жинхэнэ гүйлгээ биш)' }); notify(db, o, 'payment_confirmed'); return o;

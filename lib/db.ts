@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { buildSeed } from './seed';
+import { buildSeed, hashPassword } from './seed';
 import type { DB } from './types';
 
 export const DEMO_MODE = process.env.NEXT_PUBLIC_DEMO_MODE !== 'false';
@@ -13,7 +13,16 @@ const g = globalThis as unknown as { __rayanaDB?: DB; __rayanaHydrated?: boolean
 function read(): DB {
   fs.mkdirSync(dataDir, { recursive: true });
   if (fs.existsSync(file)) { try { return JSON.parse(fs.readFileSync(file, 'utf8')) as DB; } catch { fs.renameSync(file, file + '.corrupt.' + Date.now()); } }
-  const db = buildSeed(); write(db); return db;
+  const db = DEMO_MODE ? buildSeed() : buildProductionStart(); write(db); return db;
+}
+/** DEMO_MODE=false: start with store structure (categories, delivery, settings) but no sample products, orders or customers. */
+function buildProductionStart(): DB {
+  const db = buildSeed(); const email = process.env.ADMIN_EMAIL; const pw = process.env.ADMIN_PASSWORD;
+  if (!email || !pw || pw.length < 10) throw new Error('DEMO_MODE is off: set ADMIN_EMAIL and ADMIN_PASSWORD (10+ characters) to create the first admin.');
+  db.products = []; db.orders = []; db.reviews = []; db.stockMoves = []; db.bundles = []; db.abandoned = []; db.subscribers = []; db.orderSeq = 1000;
+  db.codes = db.codes.filter((c) => c.code === db.settings.newCustomerCode).map((c) => ({ ...c, demo: false })); db.collections = db.collections.map((c) => ({ ...c, demo: false }));
+  const admin = db.users.find((u) => u.role === 'admin')!; db.users = [{ ...admin, id: 'usr_admin', email: email.toLowerCase(), passHash: hashPassword(pw), name: 'Admin', demo: false }];
+  db.settings.bank = { name: '', account: '', holder: '' }; return db;
 }
 function write(db: DB) {
   fs.mkdirSync(dataDir, { recursive: true });
