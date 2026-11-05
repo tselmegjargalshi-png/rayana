@@ -2,7 +2,9 @@ import { createHash, randomBytes, scryptSync } from 'node:crypto';
 import type { AgeGroup, Banner, Category, Collection, ColorDef, DB, DeliveryZone, DiscountCode, Group, Order, OrderItem, OrderStatus, PayMethod, Product, Review, Settings, StockMove, User, Variant, Bi } from './types';
 
 export const DISTRICTS = ['Сүхбаатар', 'Чингэлтэй', 'Баянгол', 'Хан Уул', 'Баянзүрх', 'Сонгинохайрхан', 'Налайх', 'Багануур', 'Багахангай'];
-export const DEMO_ADMIN = { email: 'admin@rayana.demo', password: 'Rayana2026!' };
+/** Set DEMO_ADMIN_PASSWORD on public deployments so the published demo admin login is not the default. */
+export const DEMO_ADMIN_PASSWORD_CUSTOM = Boolean(process.env.DEMO_ADMIN_PASSWORD);
+export const DEMO_ADMIN = { email: 'admin@rayana.demo', password: process.env.DEMO_ADMIN_PASSWORD || 'Rayana2026!' };
 export const DEMO_CUSTOMER_PASSWORD = 'Demo1234!';
 
 export function hashPassword(pw: string): string {

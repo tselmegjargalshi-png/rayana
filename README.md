@@ -35,6 +35,7 @@ Copy `.env.example` to `.env.local`. All are optional in demo mode.
 | `SESSION_SECRET` | Signs session cookies. **Set a random 32+ character value in production.** Without it a random secret is generated and stored in the data directory. |
 | `NEXT_PUBLIC_SITE_URL` | Public URL of the site. |
 | `NEXT_PUBLIC_DEMO_MODE` | `true` (default) seeds demo data, shows the demo banner and demo logins. Set `false` for a real shop: no sample data is created and the demo banner and logins disappear. This value is read at build time. |
+| `DEMO_ADMIN_PASSWORD` | Demo mode only. Replaces the default demo admin password and hides the admin demo login from the login page. **Set this on any public deployment.** |
 | `ADMIN_EMAIL`, `ADMIN_PASSWORD` | Required when `NEXT_PUBLIC_DEMO_MODE=false` and the database is empty. Creates the first admin (password 10+ characters). |
 | `DATA_DIR` | Where the JSON database and uploads live. Default `./.data`, or `/tmp/rayana` on Vercel. |
 | `NEXT_PUBLIC_SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` | When both are set, the store state is also persisted to Supabase (see below). The service role key is server only and never sent to the browser. |

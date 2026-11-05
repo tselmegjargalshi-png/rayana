@@ -21,7 +21,7 @@ export function AuthForm({ mode, demo, demoLogins }: { mode: 'login' | 'register
         <button className="btn btn-primary w-full" disabled={busy} data-testid="auth-submit">{mode === 'login' ? t('login') : t('register')}</button>
         <p className="text-center text-sm text-muted">{mode === 'login' ? t('no_account') : t('have_account')} <Link className="font-semibold text-clay underline" href={mode === 'login' ? '/register' : '/login'}>{mode === 'login' ? t('register') : t('login')}</Link></p>
       </form>
-      {demo && mode === 'login' && <div className="mt-6 rounded-3xl bg-butter/50 p-5 text-sm"><p className="font-semibold">{t('demo_logins')}</p>{(['admin', 'customer'] as const).map((k) => <div key={k} className="mt-2 flex items-center justify-between gap-2"><span><b>{t('demo_' + k)}:</b> {demoLogins[k].email} / {demoLogins[k].password}</span><button type="button" className="chip" onClick={() => setF({ ...f, email: demoLogins[k].email, password: demoLogins[k].password })} data-testid={`fill-${k}`}>{t('use_this')}</button></div>)}</div>}
+      {demo && mode === 'login' && <div className="mt-6 rounded-3xl bg-butter/50 p-5 text-sm"><p className="font-semibold">{t('demo_logins')}</p>{(['admin', 'customer'] as const).filter((k) => demoLogins[k].email).map((k) => <div key={k} className="mt-2 flex items-center justify-between gap-2"><span><b>{t('demo_' + k)}:</b> {demoLogins[k].email} / {demoLogins[k].password}</span><button type="button" className="chip" onClick={() => setF({ ...f, email: demoLogins[k].email, password: demoLogins[k].password })} data-testid={`fill-${k}`}>{t('use_this')}</button></div>)}</div>}
     </div>
   );
 }
